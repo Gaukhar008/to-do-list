@@ -1,0 +1,12 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    background-image: url(../../dist/images/background.jpg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.sidebar {
+    width: 280px;
+}
