@@ -1,6 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 
 body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
     background-image: url(../../dist/images/background.jpg);
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -9,4 +12,103 @@ body {
 
 .sidebar {
     width: 280px;
+}
+
+.modal::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    content: '';
+    background: rgba(35, 35, 37, 0.7);
+}
+
+.form-control:focus {
+    border-color: #C7A68B;
+    box-shadow: 0 0 0 0.2rem rgba(199, 166, 139, 0.5);
+}
+
+.btn-close:focus {
+    border-color: #C7A68B;
+    box-shadow: 0 0 0 0.2rem rgba(199, 166, 139, 0.5);
+}
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:visited {
+    background-color: #C7A68B !important;
+    border: #C7A68B;
+}
+
+.btn-primary:hover {
+    background-color: #a7866b !important;
+    border: #a7866b
+}
+
+.red-border,
+.red-border:active,
+.red-border:focus {
+    border-color: rgba(255, 0, 0, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.5);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #212529;
+    -webkit-box-shadow: 0 0 0px 1000px #c7a68b81 inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.tasks-list {
+    list-style-type: none;
+    padding-right: 2rem;
+    margin-top: 1rem;
+
+    .tasks-list__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        margin-bottom: 1rem;
+
+        .tasks-list__left {
+            display: flex;
+            align-items: center;
+
+            label {
+                margin-left: 10px;
+            }
+
+            .tasks-list__item-checkbox {
+                margin-right: 1rem;
+                height: 1.3rem;
+                width: 1.3rem;
+                border-radius: 3px;
+                border: 2px solid #a7866b;
+            }
+
+            .tasks-list__item-checkbox-checked {
+                height: 1.3rem;
+                width: 1.3rem;
+                display: block;
+                background: url(../../dist/images/check-icon.png) #a7866b;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+        }
+
+        .tasks-list__item-title {}
+    }
+
+    .tasks-list__right {
+        input {
+            margin-left: 10px;
+        }
+    }
 }
