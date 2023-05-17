@@ -6,5 +6,5 @@ import UI from './modules/UI';
 UI.loadHomePage();
 UI.displayModal();
 UI.closeModal();
-UI.addTask();
+UI.displayTasks();
 

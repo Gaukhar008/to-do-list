@@ -60,22 +60,47 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
     -webkit-text-fill-color: #212529;
     -webkit-box-shadow: 0 0 0px 1000px #c7a68b81 inset;
+    box-shadow: 0 0 0px 1000px #c7a68b81 inset;
     transition: background-color 5000s ease-in-out 0s;
 }
 
 .tasks-list {
+    display: flex;
+    flex-direction: column;
     list-style-type: none;
     padding-right: 2rem;
     margin-top: 1rem;
+    gap: 1rem;
+
 
     .tasks-list__item {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: white;
+        flex-direction: column;
+        border: 1px solid white;
         border-radius: 8px;
         padding: 0.5rem 1rem;
-        margin-bottom: 1rem;
+        background-color: white;
+
+        // justify-content: space-between;
+        // align-items: center;
+        // background-color: white;
+        // border-radius: 8px;
+        // padding: 0.5rem 1rem;
+        // margin-bottom: 1rem;
+
+        .tasks-list__item-upper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            // background-color: white;
+        }
+
+        .tasks-list__item-lower {
+            .tasks-list__item-details {
+                margin-left: 32px;
+                color: #a7866b;
+            }
+        }
 
         .tasks-list__left {
             display: flex;
@@ -103,12 +128,32 @@ input:-webkit-autofill:focus {
             }
         }
 
-        .tasks-list__item-title {}
+        .tasks-list__item-title {
+            font-size: 1.2rem;
+        }
     }
 
     .tasks-list__right {
+        display: flex;
+
+        a {
+            margin-left: 15px;
+        }
+
         input {
-            margin-left: 10px;
+            margin-left: 15px;
+        }
+
+        button {
+            border: none;
+            background-color: white;
+            font-size: 1.2rem;
+            color: #a7866b;
+            text-decoration: underline;
+        }
+
+        button:hover {
+            color: #C7A68B;
         }
     }
 }
