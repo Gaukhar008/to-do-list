@@ -111,6 +111,45 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal position-fixed" id="editTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered fade show">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="fw-bold mb-0 fs-3">Edit Task</h2>
+                        <button type="button" class="btn-close editTaskModal-btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <form class="modal-form">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="edit-task-modal-form__input-title form-control rounded-3"
+                                    id="floatingInput" placeholder="Title">
+                                <label for="floatingInput">Title</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="edit-task-modal-form__input-details form-control rounded-3"
+                                    id="floatingInput" placeholder="Details">
+                                <label for="floatingInput">Details</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="date" class="edit-task-modal-form__input-dueDate form-control rounded-3"
+                                    id="floatingInput" placeholder="DD.MM.YYYY">
+                                <label for="floatingInput">Due Date</label>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer flex-column border-top-0">
+                        <button type="button"
+                            class="modal__edit-task-btn btn btn-lg btn-primary w-100 mx-0 mb-2">Save</button>
+                        <button type="button" class="editTaskModal-cancel-btn  btn btn-lg btn-light w-100 mx-0"
+                            data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>

@@ -40,22 +40,10 @@ export default class UI {
             tasks.push(task);
             Storage.setTodoList(tasks);
             // localStorage.setItem('tasks', JSON.stringify(tasks));
-            const modal = document.querySelector('.modal');
+            const modal = document.querySelector('#addTaskModal');
             modal.classList.remove('d-block');
             modal.classList.add('d-none');
         }
-    }
-
-    static showModal() {
-        const modal = document.querySelector('.modal');
-        modal.classList.remove('d-none');
-        modal.classList.add('d-block');
-    }
-
-    static hideModal() {
-        const modal = document.querySelector('.modal');
-        modal.classList.remove('d-block');
-        modal.classList.add('d-none');
     }
 
     static createAddTaskBtn() {
@@ -88,33 +76,49 @@ export default class UI {
 
     static loadTasks() {
         let tasks = Storage.getTodoList();
-        console.log(tasks);
         // let tasks = JSON.parse(localStorage.getItem('tasks'));
         const ul = document.querySelector('.tasks-list');
+        ul.innerHTML = '';
         tasks.forEach(task => {
             const index = tasks.indexOf(task);
             const li = document.createElement('li');
             li.classList.add('tasks-list__item');
             li.dataset.indexNumber = index;
-            li.innerHTML = `
+            if (task.isCompleted === true) {
+                li.innerHTML = `
+                <div class="tasks-list__item-upper">
+                    <div class="tasks-list__left">
+                        <input type="checkbox" class="tasks-list__item-checkbox" ${task.isCompleted ? 'checked' : ''}>
+                        <div class="tasks-list__item-title"><s>${task.title}</s></div>
+                    </div>
+                    <div class="tasks-list__right">
+                        <label for="dueDate">Due Date: </label>
+                        <input type="date" name="dueDate" id="dueDate" value="${task.dueDate}" disabled>
+                            <img class="tasks-list__edit-icon" src="./images/edit-icon.png" alt="Edit-icon" width="27" height="27">
+                            <img src="./images/bin-icon.png" alt="Edit-icon" width="27" height="27">
+                    </div>
+                </div>
+                <div class="tasks-list__item-lower">
+                    <details class="tasks-list__item-details">Details</details>
+                </div>`;
+            } else {
+                li.innerHTML = `
             <div class="tasks-list__item-upper">
                 <div class="tasks-list__left">
-                    <div class="tasks-list__item-checkbox tasks-list__item-checkbox-checked"></div>
-                    <div class="tasks-list__item-title">${task.title}</div>
+                    <input type="checkbox" class="tasks-list__item-checkbox" ${task.isCompleted ? 'checked' : ''}>
+                    <div class="tasks-list__item-title" >${task.title}</div>
                 </div>
                 <div class="tasks-list__right">
-                    <input type="date">
-                    <a href="/">
-                        <img src="./images/edit-icon.png" alt="Edit-icon" width="30" height="30">
-                    </a>
-                    <a href="/">
-                        <img src="./images/bin-icon.png" alt="Edit-icon" width="30" height="30">
-                    </a>
+                    <label for="dueDate">Due Date: </label>
+                    <input type="date" name="dueDate" id="dueDate" value="${task.dueDate}" disabled>
+                        <img class="tasks-list__edit-icon" src="./images/edit-icon.png" alt="Edit-icon" width="27" height="27">
+                        <img src="./images/bin-icon.png" alt="Edit-icon" width="27" height="27">
                 </div>
             </div>
             <div class="tasks-list__item-lower">
                 <details class="tasks-list__item-details">Details</details>
             </div>`;
+            }
             ul.appendChild(li);
         });
         return ul;
@@ -133,33 +137,49 @@ export default class UI {
     static displayModal() {
         const addTaskBtn = document.querySelector('.add-task-btn');
         addTaskBtn.addEventListener('click', () => {
-            this.showModal();
+            const modal = document.querySelector('#addTaskModal');
+            modal.classList.remove('d-none');
+            modal.classList.add('d-block');
         })
     }
 
-    static closeModal() {
+    static closeAddTaskModal() {
         const closeModalBtn = document.querySelector('.btn-close');
         const cancelBtn = document.querySelector('.modal__cancel-btn');
         closeModalBtn.addEventListener('click', () => {
-            this.hideModal();
+            const modal = document.querySelector('#addTaskModal');
+            modal.classList.remove('d-block');
+            modal.classList.add('d-none');
         })
         cancelBtn.addEventListener('click', () => {
-            this.hideModal();
+            const modal = document.querySelector('#addTaskModal');
+            modal.classList.remove('d-block');
+            modal.classList.add('d-none');
         })
     }
+
+    static closeEditTaskModal() {
+        const closeModalBtn = document.querySelector('.editTaskModal-btn-close');
+        const cancelBtn = document.querySelector('.editTaskModal-cancel-btn');
+        closeModalBtn.addEventListener('click', () => {
+            const modal = document.querySelector('#editTaskModal');
+            modal.classList.remove('d-block');
+            modal.classList.add('d-none');
+        })
+        cancelBtn.addEventListener('click', () => {
+            const modal = document.querySelector('#editTaskModal');
+            modal.classList.remove('d-block');
+            modal.classList.add('d-none');
+        })
+    }
+
+
 
     static clearTasks() {
         const ul = document.querySelector('.tasks-list');
         ul.innerHTML = '';
         console.log(ul);
     }
-
-    // static addTask() {
-    //     const modalAddTaskBtn = document.querySelector('.modal__add-task-btn');
-    //     modalAddTaskBtn.addEventListener('click', () => {
-    //         this.addTaskToStorage();
-    //     })
-    // };
 
     static displayTasks() {
         const modalAddTaskBtn = document.querySelector('.modal__add-task-btn');
@@ -174,7 +194,69 @@ export default class UI {
             this.displayTaskDetails();
         });
     }
+
+    static updateIsCompleted() {
+        let tasks = Storage.getTodoList();
+        const checkboxes = document.querySelectorAll('.tasks-list__item-checkbox');
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('click', () => {
+                const li = checkbox.parentElement.parentElement.parentElement;
+                const title = checkbox.parentElement.children[1];
+                const index = li.dataset.indexNumber;
+                tasks[index].isCompleted = checkbox.checked;
+                if (checkbox.checked === true) {
+                    title.innerHTML = `<s>${title.textContent}</s>`
+                } else {
+                    title.innerHTML = title.textContent;
+                }
+                console.log(title.textContent);
+                Storage.setTodoList(tasks);
+            })
+        })
+    }
+
+    static displayEditTaskModal() {
+        let tasks = Storage.getTodoList();
+        const editIcons = document.querySelectorAll('.tasks-list__edit-icon');
+        editIcons.forEach((icon) => {
+            icon.addEventListener('click', () => {
+                const li = icon.parentElement.parentElement.parentElement;
+                const index = li.dataset.indexNumber;
+                const modal = document.querySelector('#editTaskModal');
+                modal.dataset.indexNumber = index;
+                const modalInputTitle = document.querySelector('.edit-task-modal-form__input-title');
+                const modalInputDetails = document.querySelector('.edit-task-modal-form__input-details');
+                const modalInputDueDate = document.querySelector('.edit-task-modal-form__input-dueDate');
+                modal.classList.remove('d-none');
+                modal.classList.add('d-block');
+                const title = tasks[index].title;
+                modalInputTitle.value = title;
+                const details = tasks[index].details;
+                modalInputDetails.value = details;
+                const dueDate = tasks[index].dueDate;
+                modalInputDueDate.value = dueDate;
+                this.updateTask();
+            })
+        })
+    }
+
+    static updateTask() {
+        let tasks = Storage.getTodoList();
+        const modalSaveBtn = document.querySelector('.modal__edit-task-btn');
+        modalSaveBtn.addEventListener('click', () => {
+            const modal = document.querySelector('#editTaskModal');
+            const index = modal.dataset.indexNumber;
+            const modalInputTitleValue = document.querySelector('.edit-task-modal-form__input-title').value;
+            const modalInputDetailsValue = document.querySelector('.edit-task-modal-form__input-details').value;
+            const modalInputDueDateValue = document.querySelector('.edit-task-modal-form__input-dueDate').value;
+            tasks[index].title = modalInputTitleValue;
+            tasks[index].details = modalInputDetailsValue;
+            tasks[index].dueDate = modalInputDueDateValue;
+            Storage.setTodoList(tasks);
+            modal.classList.remove('d-block');
+            modal.classList.add('d-none');
+            this.loadTasks();
+        })
+    }
+
 }
-
-
-

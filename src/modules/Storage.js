@@ -10,4 +10,5 @@ export default class Storage {
         const todoList = JSON.parse(localStorage.getItem('tasks') || '[]');
         return todoList;
     }
+
 }

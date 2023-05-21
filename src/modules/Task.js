@@ -3,5 +3,6 @@ export default class Task {
         this.title = title;
         this.details = details;
         this.dueDate = dueDate;
+        this.isCompleted = false;
     }
 }
