@@ -97,8 +97,8 @@ input:-webkit-autofill:focus {
 
         .tasks-list__item-lower {
             .tasks-list__item-details {
+                cursor: pointer;
                 margin-left: 40px;
-                color: #a7866b;
             }
         }
 

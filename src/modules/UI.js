@@ -95,11 +95,11 @@ export default class UI {
                         <label for="dueDate">Due Date: </label>
                         <input type="date" name="dueDate" id="dueDate" value="${task.dueDate}" disabled>
                             <img class="tasks-list__edit-icon" src="./images/edit-icon.png" alt="Edit-icon" width="27" height="27">
-                            <img src="./images/bin-icon.png" alt="Edit-icon" width="27" height="27">
+                            <img class="tasks-list__delete-icon" src="./images/bin-icon.png" alt="Edit-icon" width="27" height="27">
                     </div>
                 </div>
                 <div class="tasks-list__item-lower">
-                    <details class="tasks-list__item-details">Details</details>
+                    <details class="tasks-list__item-details">${task.details}</details>
                 </div>`;
             } else {
                 li.innerHTML = `
@@ -112,14 +112,16 @@ export default class UI {
                     <label for="dueDate">Due Date: </label>
                     <input type="date" name="dueDate" id="dueDate" value="${task.dueDate}" disabled>
                         <img class="tasks-list__edit-icon" src="./images/edit-icon.png" alt="Edit-icon" width="27" height="27">
-                        <img src="./images/bin-icon.png" alt="Edit-icon" width="27" height="27">
+                        <img class="tasks-list__delete-icon" src="./images/bin-icon.png" alt="Edit-icon" width="27" height="27">
                 </div>
             </div>
             <div class="tasks-list__item-lower">
-                <details class="tasks-list__item-details">Details</details>
+                <details class="tasks-list__item-details">${task.details}</details>
             </div>`;
             }
             ul.appendChild(li);
+            this.displayEditTaskModal();
+            this.deleteTask();
         });
         return ul;
     }
@@ -209,7 +211,6 @@ export default class UI {
                 } else {
                     title.innerHTML = title.textContent;
                 }
-                console.log(title.textContent);
                 Storage.setTodoList(tasks);
             })
         })
@@ -259,4 +260,18 @@ export default class UI {
         })
     }
 
+    static deleteTask() {
+        let tasks = Storage.getTodoList();
+        const deleteIcons = document.querySelectorAll('.tasks-list__delete-icon');
+        deleteIcons.forEach((icon) => {
+            icon.addEventListener('click', () => {
+                const li = icon.parentElement.parentElement.parentElement;
+                const index = li.dataset.indexNumber;
+                tasks.splice(index, 1);
+                console.log(tasks);
+                Storage.setTodoList(tasks);
+                this.loadTasks();
+            })
+        })
+    }
 }

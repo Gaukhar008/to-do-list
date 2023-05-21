@@ -9,5 +9,4 @@ UI.closeAddTaskModal();
 UI.closeEditTaskModal();
 UI.displayTasks();
 UI.updateIsCompleted();
-UI.displayEditTaskModal();
 
